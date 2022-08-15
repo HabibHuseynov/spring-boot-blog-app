@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Spring boot block application</h1>
+        <a th:href="@{/post/new}">New Post</a>
+        <hr />
+        <div class="posts-container">
+            <div class="post" th:each="post : ${posts}">
+
+                <h2><a th:href="@{'/post/'+${post.id}}"
+                       th:text="${post.title}">Title</a>
+                </h2>
+                <h5 th:text="'written by '+${post.account.firstName}">Account</h5>
+                <h5 th:text="'Published on '+${post.createdAt}">
+                    created AT
+                </h5>
+                <p th:text="${post.body}">Body</p>
+                <br/>
+
+            </div>
+        </div>
+        <ul sec:authorize="!isAuthenticated()">
+            <li><a th:href="@{/register}">Register</a></li>
+            <li><a th:href="@{/login}">login</a></li>
+
+        </ul>
+        <div sec:authorize="isAuthenticated()">
+            <form action="#"
+            th:action="@{/logout}"
+            method="POST">
+                <div class="form-group">
+                    <label>Mi, <span sec:authentication="name">Username</span></label>
+                </div>
+                <button type="submit">Logout</button>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>
